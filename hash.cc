@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <algorithm>
 #include <cassert>
 
 namespace {
@@ -12,7 +13,7 @@ namespace {
     const bool debug = true;
     #endif
 
-    #define derr if (debug) std::cerr << __func__
+    #define derr if (debug) get_cerr() << __func__
 
     using id_type = unsigned long;
     using hash_type = uint64_t;
@@ -26,6 +27,11 @@ namespace {
     using sizes_ht = std::unordered_map<id_type, size_t>;
 
     id_type counter = 0;
+
+    std::ostream& get_cerr() {
+        static std::ios_base::Init init;
+        return std::cerr;
+    }
 
     hash_tables_ht& hash_tables() {
         static hash_tables_ht* hash_tables = new hash_tables_ht;
@@ -75,14 +81,14 @@ namespace {
 
         if (seq == nullptr) {
             if (debug) {
-                std::cerr << function_name << ": invalid pointer (NULL)\n";
+                get_cerr() << function_name << ": invalid pointer (NULL)\n";
             }
             valid_input = false;
         }
 
         if (size == 0) {
             if (debug) {
-                std::cerr << function_name << ": invalid size (0)\n";
+                get_cerr() << function_name << ": invalid size (0)\n";
             }
             valid_input = false;
         }
@@ -93,7 +99,7 @@ namespace {
 
         if (!hash_table_exists(id)) {
             if (debug) {
-                std::cerr << function_name << ": hash table #" << id << " does not exist\n";
+                get_cerr() << function_name << ": hash table #" << id << " does not exist\n";
             }
             return false;
         }

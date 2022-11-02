@@ -200,8 +200,8 @@ namespace jnp1 {
             if (it != seq_vec.end()) {
                 seq_vec.erase(it);
                 if (seq_vec.empty()) {
-					ht.erase(hash);
-				}
+                    ht.erase(hash);
+                }
                 sizes()[id]--;
                 derr << ": hash table #" << id << ", sequence " << seq_str << " removed\n";
                 return true;

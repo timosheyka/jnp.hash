@@ -1,3 +1,13 @@
+/**
+ * JNP1 2022/2023, Zadanie 2
+ * Interfejs modułu, udostępniającego tablice haszujące
+ * ciągi liczb typu uint64_t.
+ *
+ * Autorzy:
+ * Ivan Gechu           ig439665
+ * Tsimafei Lukashevich tl439668
+ */
+
 #ifndef JNP1_HASH_H
 #define JNP1_HASH_H
 
@@ -7,21 +17,24 @@
 #include <cstdint>
 namespace jnp1 {
 extern "C" {
+using std::uint64_t;
+using hash_function_t = uint64_t (*)(const uint64_t*, size_t);
 
 #else
 
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
+typedef uint64_t (*hash_function_t)(const uint64_t *, size_t);
 
 #endif
 
 /**
  * Tworzy tablicę haszującą i zwraca jej identyfikator. Parametr
  * hash_function jest wskaźnikiem na funkcję haszującą, która daje w wyniku
- * liczbę uint64_t i ma kolejno parametry uint64_t const * oraz size_t.
+ * liczbę uint64_t i ma kolejno parametry const uint64_t* oraz size_t.
  */
-unsigned long hash_create(uint64_t (*hash_function)(const uint64_t*, size_t));
+unsigned long hash_create(hash_function_t hash_function);
 
 /**
  * Usuwa tablicę haszującą o identyfikatorze id, o ile ona istnieje.
@@ -70,8 +83,8 @@ bool hash_test(unsigned long id, const uint64_t* seq, size_t size);
 
 #ifdef __cplusplus
 
-}
-}
+} /* extern "C"     */
+} /* namespace jnp1 */
 
 #endif
 

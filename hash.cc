@@ -80,7 +80,8 @@ namespace jnp1 {
                         str += " ";
                     }
                     str += std::to_string(seq[i]);
-                }                str += "\"";
+                }
+                str += "\"";
             }
 
             return str;
